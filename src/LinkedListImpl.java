@@ -1,3 +1,5 @@
+import exceptions.NegativeIndexException;
+
 import java.util.*;
 
 public class LinkedListImpl<E> implements List {
@@ -5,6 +7,7 @@ public class LinkedListImpl<E> implements List {
     private Node<E> firstNode = null;
     private Node<E> currentNode;
     private int size = 0;
+
 
 
     @Override
@@ -33,7 +36,12 @@ public class LinkedListImpl<E> implements List {
     }
 
     @Override
-    public Object get(int index) {
+    public Object get(int index) throws NegativeIndexException, IndexOutOfBoundsException {
+
+        if (index < 0){
+            throw new NegativeIndexException("You try to get elem with negative index, index= " +index, index);
+        }
+
         if (index < size) {
             Node searchResult = firstNode;
             for (int i = 0; i < index; i++) {
@@ -41,7 +49,7 @@ public class LinkedListImpl<E> implements List {
             }
             return searchResult.item;
         }else {
-            return new IndexOutOfBoundsException("Item with index " + index + " " + "doesn`t exist!" );
+            throw new IndexOutOfBoundsException("Item with index " + index + " " + "doesn`t exist!" );
         }
     }
 
@@ -92,9 +100,13 @@ public class LinkedListImpl<E> implements List {
     }
 
     @Override
-    public Object remove(int index) {
+    public Object remove(int index) throws NegativeIndexException, IndexOutOfBoundsException {
         Node temp = firstNode;
         Node temp2;
+
+        if (index < 0){
+            throw new NegativeIndexException("Negative index", index);
+        }
 
         if (index == 0) {
             temp.next.prev = null;
@@ -166,6 +178,7 @@ public class LinkedListImpl<E> implements List {
     public Object[] toArray(Object[] a) {
         return new Object[0];
     }
+
 
     private static class Node<E>{
         E item;
