@@ -14,7 +14,7 @@ public class NegativeIndexException extends RuntimeException {
     }
 
     public NegativeIndexException(String message, Number num) {
-        super(message);
+        super("You try to put negative index, your index = " + num);
         num = this.entrNumber;
     }
 }
