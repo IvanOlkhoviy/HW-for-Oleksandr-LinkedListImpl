@@ -1,6 +1,8 @@
+import annotations.ShowMethodAnnotation;
 import exceptions.NegativeIndexException;
 
 import java.util.*;
+
 
 public class LinkedListImpl<E> implements List {
 
@@ -9,7 +11,7 @@ public class LinkedListImpl<E> implements List {
     private int size = 0;
 
 
-
+    @ShowMethodAnnotation
     @Override
     public boolean add(Object o) {
         if (currentNode == null){
@@ -23,6 +25,7 @@ public class LinkedListImpl<E> implements List {
         return true;
     }
 
+    @ShowMethodAnnotation
     @Override
     public void clear() {
         currentNode = null;
@@ -30,11 +33,13 @@ public class LinkedListImpl<E> implements List {
         size = 0;
     }
 
+    @ShowMethodAnnotation
     @Override
     public int size() {
         return size;
     }
 
+    @ShowMethodAnnotation
     @Override
     public Object get(int index) throws NegativeIndexException, IndexOutOfBoundsException {
 
@@ -51,6 +56,41 @@ public class LinkedListImpl<E> implements List {
         }else {
             throw new IndexOutOfBoundsException("Item with index " + index + " " + "doesn`t exist!" );
         }
+    }
+    @ShowMethodAnnotation
+    @Override
+    public Object remove(int index) throws NegativeIndexException, IndexOutOfBoundsException {
+        Node temp = firstNode;
+        Node temp2;
+
+        if (index < 0){
+            throw new NegativeIndexException("Negative index", index);
+        }
+
+        if (index == 0) {
+            temp.next.prev = null;
+            firstNode = temp.next;
+            size--;
+        } else if (index >= size)
+            throw new IndexOutOfBoundsException("Item with index " + index + " " + "doesn`t exist");
+        else if (index < size - 1) {
+            for (int i = 0; i < index; i++)
+                temp = firstNode.next;
+
+            temp2 = temp.next;
+            temp.next.prev = temp.prev;
+            temp.prev.next = temp2;
+
+            size--;
+        } else {
+            for (int i = 0; i < index - 1; i++)
+                temp = firstNode.next;
+            temp.next = null;
+
+            size--;
+        }
+
+        return temp;
     }
 
     @Override
@@ -97,41 +137,6 @@ public class LinkedListImpl<E> implements List {
     @Override
     public void add(int index, Object element) {
 
-    }
-
-    @Override
-    public Object remove(int index) throws NegativeIndexException, IndexOutOfBoundsException {
-        Node temp = firstNode;
-        Node temp2;
-
-        if (index < 0){
-            throw new NegativeIndexException("Negative index", index);
-        }
-
-        if (index == 0) {
-            temp.next.prev = null;
-            firstNode = temp.next;
-            size--;
-        } else if (index >= size)
-            throw new IndexOutOfBoundsException("Item with index " + index + " " + "doesn`t exist");
-        else if (index < size - 1) {
-            for (int i = 0; i < index; i++)
-                temp = firstNode.next;
-
-            temp2 = temp.next;
-            temp.next.prev = temp.prev;
-            temp.prev.next = temp2;
-
-            size--;
-        } else {
-            for (int i = 0; i < index - 1; i++)
-                temp = firstNode.next;
-            temp.next = null;
-
-            size--;
-        }
-
-        return temp;
     }
 
     @Override
